@@ -1,4 +1,4 @@
-const API_KEY = 'YOUR_REMOVE_BG_API_KEY'; // Replace with your actual Remove.bg API key
+const API_KEY = '9e37wbtVkZrt1DqiJxTU4333';
 const TIMEOUT_MS = 30000; // 30 seconds
 
 const uploadArea   = document.getElementById('uploadArea');
