@@ -3,43 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- SEO: Title with primary keyword -->
-    <title>Background Remover - Free Online Background Removal Tool | ToolHub</title>
-
-    <!-- SEO: Meta description with keywords -->
-    <meta name="description" content="Remove image backgrounds instantly for free. No signup required. AI-powered background remover supports PNG, JPG. Perfect for product photos, portraits, and more.">
-
-    <!-- SEO: Open Graph -->
+    <title>Background Remover - Free Online Background Removal Tool</title>
+    <meta name="description" content="Remove image backgrounds instantly for free. No signup required. AI-powered background remover supports PNG, JPG, WEBP.">
     <meta property="og:title" content="Background Remover - Free Online Tool">
     <meta property="og:description" content="Remove image backgrounds instantly and for free. No signup, no software to install.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://toolhub.pages.dev/background-remover/">
-    <meta property="og:image" content="https://toolhub.pages.dev/assets/og-bg-remover.png">
-
-    <!-- SEO: Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Background Remover - Free Online Tool">
-    <meta name="twitter:description" content="Remove image backgrounds instantly and for free.">
-
-    <!-- JSON-LD Structured Data -->
+    <meta property="og:url" content="https://background-remover.website/">
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
       "name": "Background Remover",
-      "url": "https://toolhub.pages.dev/background-remover/",
-      "description": "Free online AI-powered background removal tool. Remove background from any image instantly.",
+      "url": "https://background-remover.website/",
+      "description": "Free online AI-powered background removal tool.",
       "applicationCategory": "UtilityApplication",
       "operatingSystem": "Any",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      }
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
     }
     </script>
-
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -47,405 +28,282 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             padding: 20px;
-            color: #333;
         }
 
-        .page-wrapper {
-            max-width: 720px;
-            margin: 0 auto;
-        }
-
-        /* ── Header ── */
-        .site-header {
-            text-align: center;
-            padding: 24px 0 16px;
-            color: white;
-        }
-        .site-logo {
-            font-size: 14px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            opacity: 0.85;
-            text-transform: uppercase;
-            margin-bottom: 32px;
-            display: block;
-        }
-
-        /* ── Tool Card ── */
-        .container {
+        .card {
             background: white;
             border-radius: 20px;
             padding: 40px;
+            width: 100%;
+            max-width: 560px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.25);
         }
+
+        /* Lang toggle */
+        .lang-toggle {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+        .lang-btn {
+            background: none;
+            border: 2px solid #e0e0e0;
+            border-radius: 20px;
+            padding: 5px 14px;
+            font-size: 13px;
+            cursor: pointer;
+            color: #666;
+            transition: all 0.2s;
+        }
+        .lang-btn:hover { border-color: #667eea; color: #667eea; }
 
         h1 {
             text-align: center;
             color: #222;
-            margin-bottom: 8px;
-            font-size: 28px;
+            font-size: 24px;
+            margin-bottom: 6px;
             line-height: 1.3;
         }
         .subtitle {
             text-align: center;
-            color: #666;
+            color: #888;
+            font-size: 14px;
             margin-bottom: 28px;
-            font-size: 15px;
         }
 
-        /* ── Steps ── */
-        .steps {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 28px;
-            justify-content: center;
-        }
-        .step {
-            flex: 1;
-            text-align: center;
-            padding: 14px 10px;
-            background: #f8f9ff;
-            border-radius: 12px;
-        }
-        .step-icon { font-size: 22px; margin-bottom: 6px; }
-        .step-num {
-            font-size: 11px;
-            font-weight: 700;
-            color: #667eea;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 2px;
-        }
-        .step-text { font-size: 13px; color: #555; }
-
-        /* ── Upload Area ── */
+        /* Upload */
         .upload-area {
             border: 3px dashed #667eea;
-            border-radius: 15px;
-            padding: 52px 20px;
+            border-radius: 14px;
+            padding: 48px 20px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.25s;
+            transition: all 0.2s;
             background: #f8f9ff;
         }
-        .upload-area:hover, .upload-area:focus-within {
+        .upload-area:hover, .upload-area.dragover {
             border-color: #764ba2;
-            background: #f0f2ff;
-        }
-        .upload-area.dragover {
-            border-color: #764ba2;
-            background: #e8ebff;
-            transform: scale(1.01);
+            background: #eeefff;
         }
         input[type="file"] { display: none; }
-        .upload-icon { font-size: 44px; margin-bottom: 12px; }
+        .upload-icon { font-size: 40px; margin-bottom: 10px; }
+        .upload-main { font-size: 16px; color: #333; margin-bottom: 6px; }
+        .upload-main strong { color: #667eea; }
+        .upload-hint { font-size: 13px; color: #aaa; }
 
-        /* ── Buttons ── */
-        .btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 15px 40px;
-            border-radius: 30px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 14px;
-            width: 100%;
-            font-weight: 600;
-            transition: transform 0.2s, opacity 0.2s;
-        }
-        .btn:hover { transform: translateY(-2px); }
-        .btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
-        .btn-secondary {
-            background: #6c757d;
-        }
-
-        /* ── Loading ── */
-        .loading {
-            text-align: center;
-            padding: 24px;
-            display: none;
-        }
+        /* Loading */
+        .loading { display: none; text-align: center; padding: 28px 0; }
         .loading.active { display: block; }
         .spinner {
             border: 4px solid #f0f0f0;
-            border-top: 4px solid #667eea;
+            border-top-color: #667eea;
             border-radius: 50%;
-            width: 44px;
-            height: 44px;
-            animation: spin 0.9s linear infinite;
-            margin: 0 auto 14px;
+            width: 42px; height: 42px;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 12px;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .loading p { color: #666; font-size: 14px; }
 
-        /* ── Error ── */
+        /* Error */
         .error {
+            display: none;
             background: #fff0f0;
             color: #c0392b;
-            padding: 13px 16px;
-            border-radius: 10px;
-            margin-top: 14px;
-            display: none;
-            font-size: 14px;
             border-left: 4px solid #e74c3c;
+            border-radius: 8px;
+            padding: 12px 14px;
+            margin-top: 14px;
+            font-size: 14px;
+            gap: 8px;
+            align-items: center;
         }
-        .error.active { display: flex; align-items: center; gap: 8px; }
+        .error.active { display: flex; }
 
-        /* ── Preview ── */
-        .preview { margin-top: 28px; display: none; }
+        /* Preview */
+        .preview { display: none; margin-top: 4px; }
         .preview.active { display: block; }
 
-        .image-container {
+        .image-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 14px;
-            margin-bottom: 6px;
+            gap: 12px;
+            margin-bottom: 16px;
         }
         .image-box {
-            border: 2px solid #e8e8e8;
-            border-radius: 12px;
+            border: 2px solid #eee;
+            border-radius: 10px;
             overflow: hidden;
         }
         .image-box img {
             width: 100%;
-            height: 200px;
+            height: 180px;
             object-fit: contain;
             display: block;
-            background: repeating-conic-gradient(#ddd 0% 25%, #fff 0% 50%) 0 0 / 16px 16px;
+            background: repeating-conic-gradient(#ddd 0% 25%, #fff 0% 50%) 0 0 / 14px 14px;
         }
         .image-label {
             text-align: center;
-            padding: 8px;
+            padding: 6px;
             background: #fafafa;
-            font-size: 13px;
-            color: #666;
+            font-size: 12px;
+            color: #777;
             font-weight: 600;
             border-top: 1px solid #eee;
         }
 
-        /* ── Info Sections ── */
-        .info-section {
-            background: white;
-            border-radius: 20px;
-            padding: 36px 40px;
-            margin-top: 20px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
-        }
-        .info-section h2 {
-            font-size: 20px;
-            color: #222;
-            margin-bottom: 20px;
-        }
-
-        /* FAQ */
-        .faq-item { margin-bottom: 20px; }
-        .faq-item:last-child { margin-bottom: 0; }
-        .faq-q {
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 6px;
+        /* Buttons */
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 30px;
             font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.15s, opacity 0.15s;
+            margin-top: 10px;
         }
-        .faq-a { color: #666; font-size: 14px; line-height: 1.6; }
+        .btn:hover { transform: translateY(-2px); }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #555;
+        }
+        .btn-secondary:hover { background: #e4e4e4; }
 
-        /* Related tools */
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
-        .tool-card {
-            border: 2px solid #eee;
-            border-radius: 12px;
-            padding: 16px;
-            text-decoration: none;
-            color: #333;
-            transition: border-color 0.2s, background 0.2s;
-            display: block;
-        }
-        .tool-card:hover {
-            border-color: #667eea;
-            background: #f8f9ff;
-        }
-        .tool-card-icon { font-size: 24px; margin-bottom: 6px; }
-        .tool-card-name { font-weight: 600; font-size: 14px; }
-        .tool-card-desc { font-size: 12px; color: #999; margin-top: 2px; }
-
-        /* ── Footer ── */
-        .site-footer {
-            text-align: center;
-            padding: 28px 0 20px;
-            color: rgba(255,255,255,0.65);
-            font-size: 13px;
-        }
-
-        /* ── Responsive ── */
-        @media (max-width: 600px) {
-            .container, .info-section { padding: 24px 20px; }
-            .image-container { grid-template-columns: 1fr; }
-            .steps { flex-direction: column; gap: 8px; }
-            .step { display: flex; align-items: center; gap: 12px; text-align: left; }
-            .step-icon { margin-bottom: 0; font-size: 20px; flex-shrink: 0; }
-            .tools-grid { grid-template-columns: 1fr; }
-            h1 { font-size: 22px; }
-
-            /* sticky download on mobile */
-            .mobile-sticky {
-                position: sticky;
-                bottom: 16px;
-                z-index: 10;
-            }
+        @media (max-width: 480px) {
+            .card { padding: 28px 20px; }
+            .image-row { grid-template-columns: 1fr; }
+            h1 { font-size: 20px; }
         }
     </style>
 </head>
 <body>
-<div class="page-wrapper">
+<div class="card">
 
-    <!-- Site header -->
-    <header class="site-header">
-        <span class="site-logo">⚡ ToolHub</span>
-    </header>
+    <!-- Language toggle -->
+    <div class="lang-toggle">
+        <button class="lang-btn" id="langBtn" onclick="toggleLang()">中文</button>
+    </div>
 
-    <!-- Main tool card -->
-    <main>
-        <div class="container">
-            <!-- H1 with primary keyword -->
-            <h1>AI Background Remover — Remove Image Background Free</h1>
-            <p class="subtitle">No signup needed · Instant results · Download PNG with transparent background</p>
+    <h1 id="title">AI Background Remover</h1>
+    <p class="subtitle" id="subtitle">Free · No signup · Instant results</p>
 
-            <!-- Steps: 1-2-3 -->
-            <div class="steps" aria-label="How to use">
-                <div class="step">
-                    <div class="step-icon">📁</div>
-                    <div class="step-num">Step 1</div>
-                    <div class="step-text">Upload your image</div>
-                </div>
-                <div class="step">
-                    <div class="step-icon">✨</div>
-                    <div class="step-num">Step 2</div>
-                    <div class="step-text">AI removes background</div>
-                </div>
-                <div class="step">
-                    <div class="step-icon">⬇️</div>
-                    <div class="step-num">Step 3</div>
-                    <div class="step-text">Download PNG</div>
-                </div>
+    <!-- Upload -->
+    <div class="upload-area" id="uploadArea">
+        <div class="upload-icon">🖼️</div>
+        <p class="upload-main" id="uploadMain"><strong>Click to upload</strong> or drag & drop</p>
+        <p class="upload-hint" id="uploadHint">PNG · JPG · WEBP · Max 10 MB</p>
+        <input type="file" id="fileInput" accept="image/png,image/jpeg,image/webp">
+    </div>
+
+    <!-- Loading -->
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p id="loadingText">Removing background…</p>
+    </div>
+
+    <!-- Error -->
+    <div class="error" id="error" role="alert">
+        <span>⚠️</span><span id="errorText"></span>
+    </div>
+
+    <!-- Result -->
+    <div class="preview" id="preview">
+        <div class="image-row">
+            <div class="image-box">
+                <img id="originalImg" alt="Original">
+                <div class="image-label" id="labelOriginal">Original</div>
             </div>
-
-            <!-- Upload -->
-            <div class="upload-area" id="uploadArea" role="button" tabindex="0" aria-label="Click to upload image or drag and drop">
-                <div class="upload-icon">🖼️</div>
-                <p style="font-size: 17px; color: #333; margin-bottom: 8px;">
-                    <strong>Click to upload</strong> or drag &amp; drop
-                </p>
-                <p style="color: #aaa; font-size: 13px;">PNG, JPG, WEBP · Max 10 MB</p>
-                <input type="file" id="fileInput" accept="image/png,image/jpeg,image/webp" aria-label="Select image file">
-            </div>
-
-            <!-- Loading -->
-            <div class="loading" id="loading" aria-live="polite">
-                <div class="spinner" role="status" aria-label="Processing"></div>
-                <p style="color:#555;">Removing background, please wait…</p>
-            </div>
-
-            <!-- Error -->
-            <div class="error" id="error" role="alert">
-                <span>⚠️</span>
-                <span id="errorText"></span>
-            </div>
-
-            <!-- Result -->
-            <div class="preview" id="preview">
-                <div class="image-container">
-                    <div class="image-box">
-                        <img id="originalImg" alt="Original uploaded image before background removal">
-                        <div class="image-label">Original</div>
-                    </div>
-                    <div class="image-box">
-                        <img id="resultImg" alt="Result image with background removed, transparent PNG">
-                        <div class="image-label">Background Removed ✅</div>
-                    </div>
-                </div>
-
-                <div class="mobile-sticky">
-                    <button class="btn" id="downloadBtn" aria-label="Download the background-removed image as PNG">
-                        ⬇️ Download PNG
-                    </button>
-                    <button class="btn btn-secondary" id="newBtn" aria-label="Remove background from another image">
-                        🔄 Try Another Image
-                    </button>
-                </div>
+            <div class="image-box">
+                <img id="resultImg" alt="Result">
+                <div class="image-label" id="labelResult">Background Removed ✅</div>
             </div>
         </div>
-
-        <!-- FAQ Section -->
-        <section class="info-section" aria-labelledby="faq-title">
-            <h2 id="faq-title">Frequently Asked Questions</h2>
-
-            <div class="faq-item">
-                <div class="faq-q">Is this background remover really free?</div>
-                <div class="faq-a">Yes, completely free to use with no signup or credit card required. Simply upload your image and download the result instantly.</div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-q">What image formats does the background remover support?</div>
-                <div class="faq-a">You can upload PNG, JPG, and WEBP files up to 10 MB. The result is always downloaded as a high-quality PNG with a transparent background.</div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-q">How does the AI remove backgrounds automatically?</div>
-                <div class="faq-a">We use an AI-powered background removal API that analyzes your image and precisely cuts out the subject — people, products, animals, logos — leaving a clean transparent background.</div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-q">Is my image stored on your servers?</div>
-                <div class="faq-a">No. Your image is processed in real-time and never stored permanently. We respect your privacy.</div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-q">Can I use this tool for product photos and e-commerce?</div>
-                <div class="faq-a">Absolutely. This background remover is perfect for product photography, Amazon/Shopify listings, profile pictures, and any design work where you need a clean transparent background.</div>
-            </div>
-        </section>
-
-        <!-- Related Tools -->
-        <section class="info-section" aria-labelledby="tools-title">
-            <h2 id="tools-title">More Free Online Tools</h2>
-            <div class="tools-grid">
-                <a href="/image-compressor/" class="tool-card">
-                    <div class="tool-card-icon">🗜️</div>
-                    <div class="tool-card-name">Image Compressor</div>
-                    <div class="tool-card-desc">Reduce image file size without losing quality</div>
-                </a>
-                <a href="/image-converter/" class="tool-card">
-                    <div class="tool-card-icon">🔄</div>
-                    <div class="tool-card-name">Image Converter</div>
-                    <div class="tool-card-desc">Convert PNG, JPG, WEBP and more</div>
-                </a>
-                <a href="/qr-code-generator/" class="tool-card">
-                    <div class="tool-card-icon">📱</div>
-                    <div class="tool-card-name">QR Code Generator</div>
-                    <div class="tool-card-desc">Create custom QR codes for free</div>
-                </a>
-                <a href="/pdf-to-image/" class="tool-card">
-                    <div class="tool-card-icon">📄</div>
-                    <div class="tool-card-name">PDF to Image</div>
-                    <div class="tool-card-desc">Convert PDF pages to JPG or PNG</div>
-                </a>
-            </div>
-        </section>
-    </main>
-
-    <footer class="site-footer">
-        <p>© 2026 ToolHub · Free Online Tools</p>
-    </footer>
+        <button class="btn btn-primary" id="downloadBtn">⬇️ <span id="downloadText">Download PNG</span></button>
+        <button class="btn btn-secondary" id="newBtn">🔄 <span id="newText">Try Another Image</span></button>
+    </div>
 
 </div>
 
 <script src="app.js"></script>
+<script>
+// ── i18n ─────────────────────────────────────────────────────────────────────
+const i18n = {
+    en: {
+        title: 'AI Background Remover',
+        subtitle: 'Free · No signup · Instant results',
+        uploadMain: '<strong>Click to upload</strong> or drag & drop',
+        uploadHint: 'PNG · JPG · WEBP · Max 10 MB',
+        loadingText: 'Removing background…',
+        labelOriginal: 'Original',
+        labelResult: 'Background Removed ✅',
+        downloadText: 'Download PNG',
+        newText: 'Try Another Image',
+        langBtn: '中文',
+        errSize: 'File too large. Please upload an image under 10 MB.',
+        errType: 'Unsupported file type. Please use PNG, JPG, or WEBP.',
+        errTimeout: 'Request timed out (30s). Please check your connection and try again.',
+        errQuota: 'Free quota exceeded. Please try again tomorrow.',
+        errInvalid: 'Invalid image. Please try a different file.',
+        errRate: 'Too many requests. Please wait a moment and try again.',
+        errGeneric: 'Something went wrong. Please try again.',
+    },
+    zh: {
+        title: 'AI 智能抠图',
+        subtitle: '免费 · 无需注册 · 即时出图',
+        uploadMain: '<strong>点击上传</strong>或拖拽图片至此',
+        uploadHint: '支持 PNG · JPG · WEBP · 最大 10 MB',
+        loadingText: '正在去除背景，请稍候…',
+        labelOriginal: '原图',
+        labelResult: '已去除背景 ✅',
+        downloadText: '下载 PNG',
+        newText: '处理另一张图',
+        langBtn: 'English',
+        errSize: '文件过大，请上传 10 MB 以内的图片。',
+        errType: '不支持的文件格式，请使用 PNG、JPG 或 WEBP。',
+        errTimeout: '请求超时（30秒），请检查网络后重试。',
+        errQuota: '今日免费额度已用完，请明天再试。',
+        errInvalid: '图片无效，请换一张图片试试。',
+        errRate: '请求过于频繁，请稍后再试。',
+        errGeneric: '出现错误，请重试。',
+    }
+};
+
+let lang = 'en';
+
+function applyLang() {
+    const t = i18n[lang];
+    document.getElementById('title').textContent = t.title;
+    document.getElementById('subtitle').textContent = t.subtitle;
+    document.getElementById('uploadMain').innerHTML = t.uploadMain;
+    document.getElementById('uploadHint').textContent = t.uploadHint;
+    document.getElementById('loadingText').textContent = t.loadingText;
+    document.getElementById('labelOriginal').textContent = t.labelOriginal;
+    document.getElementById('labelResult').textContent = t.labelResult;
+    document.getElementById('downloadText').textContent = t.downloadText;
+    document.getElementById('newText').textContent = t.newText;
+    document.getElementById('langBtn').textContent = t.langBtn;
+    document.documentElement.lang = lang;
+}
+
+function toggleLang() {
+    lang = lang === 'en' ? 'zh' : 'en';
+    applyLang();
+}
+
+// expose for app.js error messages
+window.getT = (key) => i18n[lang][key] || key;
+
+applyLang();
+</script>
 </body>
 </html>

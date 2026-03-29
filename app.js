@@ -53,14 +53,14 @@ fileInput.addEventListener('change', (e) => {
 async function processImage(file) {
     // Validate size
     if (file.size > 10 * 1024 * 1024) {
-        showError('File too large. Please upload an image under 10 MB.');
+        showError(window.getT ? window.getT('errSize') : 'File too large. Please upload an image under 10 MB.');
         return;
     }
 
     // Validate type
     const allowed = ['image/png', 'image/jpeg', 'image/webp'];
     if (!allowed.includes(file.type)) {
-        showError('Unsupported file type. Please use PNG, JPG, or WEBP.');
+        showError(window.getT ? window.getT('errType') : 'Unsupported file type. Please use PNG, JPG, or WEBP.');
         return;
     }
 
@@ -97,9 +97,9 @@ async function processImage(file) {
                 const errData = await response.json();
                 msg = errData.errors?.[0]?.title || msg;
                 // Friendly messages for common codes
-                if (response.status === 402) msg = 'Free quota exceeded. Please try again tomorrow.';
-                if (response.status === 400) msg = 'Invalid image. Please try a different file.';
-                if (response.status === 429) msg = 'Too many requests. Please wait a moment and try again.';
+                if (response.status === 402) msg = window.getT ? window.getT('errQuota') : 'Free quota exceeded. Please try again tomorrow.';
+                if (response.status === 400) msg = window.getT ? window.getT('errInvalid') : 'Invalid image. Please try a different file.';
+                if (response.status === 429) msg = window.getT ? window.getT('errRate') : 'Too many requests. Please wait a moment and try again.';
             } catch (_) { /* keep generic msg */ }
             throw new Error(msg);
         }
@@ -116,9 +116,9 @@ async function processImage(file) {
         uploadArea.style.display = 'block';
 
         if (err.name === 'AbortError') {
-            showError('Request timed out (30s). Please check your connection and try again.');
+            showError(window.getT ? window.getT('errTimeout') : 'Request timed out (30s). Please check your connection and try again.');
         } else {
-            showError(err.message || 'Something went wrong. Please try again.');
+            showError(err.message || (window.getT ? window.getT('errGeneric') : 'Something went wrong. Please try again.'));
         }
     }
 }
