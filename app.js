@@ -17,10 +17,28 @@ let errorTimer = null;
 
 // ── Upload triggers ──────────────────────────────────────────────────────────
 
-uploadArea.addEventListener('click', () => fileInput.click());
+uploadArea.addEventListener('click', () => {
+    // Check if user is logged in before uploading
+    if (window.getCurrentUser && !window.getCurrentUser()) {
+        if (window.showLoginPrompt) {
+            window.showLoginPrompt();
+        }
+        return;
+    }
+    fileInput.click();
+});
 
 uploadArea.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') fileInput.click();
+    if (e.key === 'Enter' || e.key === ' ') {
+        // Check if user is logged in before uploading
+        if (window.getCurrentUser && !window.getCurrentUser()) {
+            if (window.showLoginPrompt) {
+                window.showLoginPrompt();
+            }
+            return;
+        }
+        fileInput.click();
+    }
 });
 
 uploadArea.addEventListener('dragover', (e) => {
@@ -35,6 +53,15 @@ uploadArea.addEventListener('dragleave', () => {
 uploadArea.addEventListener('drop', (e) => {
     e.preventDefault();
     uploadArea.classList.remove('dragover');
+    
+    // Check if user is logged in before processing
+    if (window.getCurrentUser && !window.getCurrentUser()) {
+        if (window.showLoginPrompt) {
+            window.showLoginPrompt();
+        }
+        return;
+    }
+    
     const file = e.dataTransfer.files[0];
     if (file && file.type.startsWith('image/')) {
         processImage(file);
