@@ -359,7 +359,8 @@
      data-context="signin"
      data-ux_mode="popup"
      data-callback="handleGoogleSignIn"
-     data-auto_prompt="false">
+     data-auto_prompt="false"
+     data-itp_support="true">
 </div>
 
 <script src="app.js"></script>
@@ -530,7 +531,12 @@ document.addEventListener('DOMContentLoaded', function() {
         updateUserUI(user);
     }
     
-    // Render Google Sign In button
+    // Render Google Sign In button when GIS is ready
+    renderGoogleButton();
+});
+
+// Render Google Sign In button
+function renderGoogleButton() {
     if (window.google && window.google.accounts) {
         window.google.accounts.id.renderButton(
             document.getElementById('g_id_signin'),
@@ -540,8 +546,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 width: '120'
             }
         );
+    } else {
+        // Retry after 100ms if GIS not loaded yet
+        setTimeout(renderGoogleButton, 100);
     }
-});
+}
 
 // Expose functions globally
 window.handleGoogleSignIn = handleGoogleSignIn;
@@ -549,6 +558,7 @@ window.handleLogout = handleLogout;
 window.showLoginPrompt = showLoginPrompt;
 window.closeLoginPrompt = closeLoginPrompt;
 window.getCurrentUser = getCurrentUser;
+window.renderGoogleButton = renderGoogleButton;
 </script>
 </body>
 </html>
