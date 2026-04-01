@@ -112,9 +112,6 @@
 
         /* Google Sign In button container */
         #g_id_signin {
-            display: none;
-        }
-        #g_id_signin.active {
             display: block;
         }
 
@@ -480,10 +477,10 @@ function updateUserUI(userInfo) {
         document.getElementById('userAvatar').src = userInfo.picture;
         document.getElementById('userName').textContent = userInfo.name;
         document.getElementById('userInfo').classList.add('active');
-        document.getElementById('g_id_signin').classList.remove('active');
+        document.getElementById('g_id_signin').style.display = 'none';
     } else {
         document.getElementById('userInfo').classList.remove('active');
-        document.getElementById('g_id_signin').classList.add('active');
+        document.getElementById('g_id_signin').style.display = 'block';
     }
 }
 
@@ -531,8 +528,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const user = getCurrentUser();
     if (user) {
         updateUserUI(user);
-    } else {
-        document.getElementById('g_id_signin').classList.add('active');
     }
     
     // Render Google Sign In button
