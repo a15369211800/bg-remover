@@ -505,11 +505,14 @@ function getTodayQuota() {
 function useQuota() {
     const key = getQuotaKey();
     const current = getTodayQuota();
+    console.log('Current quota:', current);
     if (current > 0) {
-        localStorage.setItem(key, current - 1);
+        localStorage.setItem(key, (current - 1).toString());
+        console.log('Quota deducted, new quota:', current - 1);
         updateQuotaDisplay();
         return true;
     }
+    console.log('Quota exhausted');
     return false;
 }
 
@@ -668,6 +671,17 @@ window.getCurrentUser = getCurrentUser;
 window.renderGoogleButton = renderGoogleButton;
 window.checkQuota = checkQuota;
 window.useQuota = useQuota;
+window.showPricing = showPricing;
 </script>
+
+<!-- Google Identity Services configuration -->
+<div id="g_id_onload"
+     data-client_id="648574251521-k3ini965gl068ck2c8a9ldbvggad6nkk.apps.googleusercontent.com"
+     data-context="signin"
+     data-ux_mode="popup"
+     data-callback="handleGoogleSignIn"
+     data-auto_prompt="false"
+     data-itp_support="true">
+</div>
 </body>
 </html>

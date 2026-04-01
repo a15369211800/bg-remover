@@ -84,7 +84,11 @@ uploadArea.addEventListener('drop', (e) => {
 
 fileInput.addEventListener('change', (e) => {
     const file = e.target.files[0];
-    if (file) processImage(file);
+    if (file) {
+        // Quota already checked and deducted when clicking upload area
+        // If we reach here, quota was available
+        processImage(file);
+    }
 });
 
 // ── Core processing ──────────────────────────────────────────────────────────
