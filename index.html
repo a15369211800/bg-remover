@@ -635,18 +635,25 @@ function getCurrentUser() {
 
 // Render Google Sign In button
 function renderGoogleButton() {
+    console.log('Attempting to render Google button...');
     if (window.google && window.google.accounts) {
-        window.google.accounts.id.renderButton(
-            document.getElementById('g_id_signin'),
-            { 
-                theme: 'outline', 
-                size: 'small',
-                width: '120'
-            }
-        );
+        console.log('Google Identity Services loaded');
+        const signinDiv = document.getElementById('g_id_signin');
+        if (signinDiv) {
+            window.google.accounts.id.renderButton(
+                signinDiv,
+                { 
+                    theme: 'outline', 
+                    size: 'small',
+                    width: '120'
+                }
+            );
+            console.log('Google button rendered');
+        }
     } else {
-        // Retry after 100ms if GIS not loaded yet
-        setTimeout(renderGoogleButton, 100);
+        console.log('Google Identity Services not loaded yet, retrying...');
+        // Retry after 500ms if GIS not loaded yet
+        setTimeout(renderGoogleButton, 500);
     }
 }
 
@@ -673,15 +680,5 @@ window.checkQuota = checkQuota;
 window.useQuota = useQuota;
 window.showPricing = showPricing;
 </script>
-
-<!-- Google Identity Services configuration -->
-<div id="g_id_onload"
-     data-client_id="648574251521-k3ini965gl068ck2c8a9ldbvggad6nkk.apps.googleusercontent.com"
-     data-context="signin"
-     data-ux_mode="popup"
-     data-callback="handleGoogleSignIn"
-     data-auto_prompt="false"
-     data-itp_support="true">
-</div>
 </body>
 </html>
