@@ -18,18 +18,32 @@ let errorTimer = null;
 // ── Upload triggers ──────────────────────────────────────────────────────────
 
 uploadArea.addEventListener('click', () => {
-    // Check quota before uploading
-    if (window.checkQuota && !window.checkQuota()) {
-        return;
+    // Check and use quota before uploading
+    if (window.useQuota) {
+        const quotaUsed = window.useQuota();
+        if (!quotaUsed) {
+            // Quota exhausted - show pricing page
+            if (window.showPricing) {
+                window.showPricing();
+            }
+            return;
+        }
     }
     fileInput.click();
 });
 
 uploadArea.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
-        // Check quota before uploading
-        if (window.checkQuota && !window.checkQuota()) {
-            return;
+        // Check and use quota before uploading
+        if (window.useQuota) {
+            const quotaUsed = window.useQuota();
+            if (!quotaUsed) {
+                // Quota exhausted - show pricing page
+                if (window.showPricing) {
+                    window.showPricing();
+                }
+                return;
+            }
         }
         fileInput.click();
     }
@@ -48,9 +62,16 @@ uploadArea.addEventListener('drop', (e) => {
     e.preventDefault();
     uploadArea.classList.remove('dragover');
     
-    // Check quota before processing
-    if (window.checkQuota && !window.checkQuota()) {
-        return;
+    // Check and use quota before processing
+    if (window.useQuota) {
+        const quotaUsed = window.useQuota();
+        if (!quotaUsed) {
+            // Quota exhausted - show pricing page
+            if (window.showPricing) {
+                window.showPricing();
+            }
+            return;
+        }
     }
     
     const file = e.dataTransfer.files[0];
@@ -82,14 +103,7 @@ async function processImage(file) {
         return;
     }
 
-    // Use quota
-    if (window.useQuota) {
-        const quotaUsed = window.useQuota();
-        if (!quotaUsed) {
-            showError(window.getT ? window.getT('errQuota') : 'Free quota exceeded. Please try again tomorrow.');
-            return;
-        }
-    }
+    // Quota already checked and used in upload event handler
 
     hideError();
     uploadArea.style.display = 'none';
@@ -142,10 +156,7 @@ async function processImage(file) {
         loading.classList.remove('active');
         uploadArea.style.display = 'block';
 
-        // Restore quota on error
-        if (window.restoreQuota) {
-            window.restoreQuota();
-        }
+        // Note: Quota is consumed before processing starts, so it's not restored on error
 
         if (err.name === 'AbortError') {
             showError(window.getT ? window.getT('errTimeout') : 'Request timed out (30s). Please check your connection and try again.');

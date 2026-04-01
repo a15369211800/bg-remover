@@ -550,6 +550,9 @@ function showPricing() {
     window.location.href = 'pricing.html';
 }
 
+// Expose showPricing globally
+window.showPricing = showPricing;
+
 // Check quota before processing
 function checkQuota() {
     const quota = getTodayQuota();
