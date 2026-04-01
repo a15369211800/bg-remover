@@ -659,16 +659,22 @@ function renderGoogleButton() {
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('Page loaded, initializing...');
+    
     const user = getCurrentUser();
+    console.log('Current user:', user);
+    
     if (user) {
         updateUserUI(user);
     }
     
     // Render Google Sign In button when GIS is ready
-    renderGoogleButton();
+    // Delay to ensure GIS script has loaded
+    setTimeout(renderGoogleButton, 1000);
     
     // Update quota display
     updateQuotaDisplay();
+    console.log('Initialization complete');
 });
 
 // Expose functions globally
