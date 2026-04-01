@@ -18,11 +18,8 @@ let errorTimer = null;
 // ── Upload triggers ──────────────────────────────────────────────────────────
 
 uploadArea.addEventListener('click', () => {
-    // Check if user is logged in before uploading
-    if (window.getCurrentUser && !window.getCurrentUser()) {
-        if (window.showLoginPrompt) {
-            window.showLoginPrompt();
-        }
+    // Check quota before uploading
+    if (window.checkQuota && !window.checkQuota()) {
         return;
     }
     fileInput.click();
@@ -30,11 +27,8 @@ uploadArea.addEventListener('click', () => {
 
 uploadArea.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
-        // Check if user is logged in before uploading
-        if (window.getCurrentUser && !window.getCurrentUser()) {
-            if (window.showLoginPrompt) {
-                window.showLoginPrompt();
-            }
+        // Check quota before uploading
+        if (window.checkQuota && !window.checkQuota()) {
             return;
         }
         fileInput.click();
@@ -54,11 +48,8 @@ uploadArea.addEventListener('drop', (e) => {
     e.preventDefault();
     uploadArea.classList.remove('dragover');
     
-    // Check if user is logged in before processing
-    if (window.getCurrentUser && !window.getCurrentUser()) {
-        if (window.showLoginPrompt) {
-            window.showLoginPrompt();
-        }
+    // Check quota before processing
+    if (window.checkQuota && !window.checkQuota()) {
         return;
     }
     
@@ -89,6 +80,15 @@ async function processImage(file) {
     if (!allowed.includes(file.type)) {
         showError(window.getT ? window.getT('errType') : 'Unsupported file type. Please use PNG, JPG, or WEBP.');
         return;
+    }
+
+    // Use quota
+    if (window.useQuota) {
+        const quotaUsed = window.useQuota();
+        if (!quotaUsed) {
+            showError(window.getT ? window.getT('errQuota') : 'Free quota exceeded. Please try again tomorrow.');
+            return;
+        }
     }
 
     hideError();
@@ -141,6 +141,11 @@ async function processImage(file) {
         clearTimeout(timeoutId);
         loading.classList.remove('active');
         uploadArea.style.display = 'block';
+
+        // Restore quota on error
+        if (window.restoreQuota) {
+            window.restoreQuota();
+        }
 
         if (err.name === 'AbortError') {
             showError(window.getT ? window.getT('errTimeout') : 'Request timed out (30s). Please check your connection and try again.');

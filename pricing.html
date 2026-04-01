@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pricing - Background Remover</title>
+    <title>Upgrade - Background Remover</title>
     <meta name="description" content="Choose the perfect plan for your background removal needs.">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -16,19 +16,19 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
         }
 
         /* Header */
         .header {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 40px;
         }
 
         .header h1 {
             color: white;
-            font-size: 42px;
+            font-size: 36px;
             margin-bottom: 15px;
         }
 
@@ -37,36 +37,25 @@
             font-size: 18px;
         }
 
-        /* Toggle */
-        .toggle {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .toggle-btn {
-            background: rgba(255,255,255,0.2);
-            border: 2px solid rgba(255,255,255,0.3);
+        /* Back button */
+        .back-link {
+            display: inline-block;
             color: white;
-            padding: 12px 30px;
-            border-radius: 30px;
-            cursor: pointer;
+            text-decoration: none;
+            margin-bottom: 30px;
             font-size: 16px;
-            transition: all 0.3s;
         }
 
-        .toggle-btn.active {
-            background: white;
-            color: #667eea;
+        .back-link:hover {
+            text-decoration: underline;
         }
 
         /* Pricing Cards */
         .pricing-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 30px;
-            margin-bottom: 60px;
+            margin-bottom: 40px;
         }
 
         .pricing-card {
@@ -196,61 +185,12 @@
             background: #e4e4e4;
         }
 
-        /* Credit Packs */
-        .credit-section {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            margin-bottom: 40px;
-        }
-
-        .credit-section h2 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 30px;
-        }
-
-        .credit-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-
-        .credit-card {
-            border: 2px solid #f0f0f0;
-            border-radius: 15px;
-            padding: 30px;
-            text-align: center;
-            transition: all 0.3s;
-        }
-
-        .credit-card:hover {
-            border-color: #667eea;
-        }
-
-        .credit-amount {
-            font-size: 36px;
-            font-weight: 700;
-            color: #667eea;
-        }
-
-        .credit-price {
-            font-size: 24px;
-            color: #333;
-            margin: 15px 0;
-        }
-
-        .credit-note {
-            color: #888;
-            font-size: 14px;
-            margin-bottom: 20px;
-        }
-
         /* FAQ */
         .faq-section {
             background: white;
             border-radius: 20px;
             padding: 40px;
+            margin-top: 40px;
         }
 
         .faq-section h2 {
@@ -268,7 +208,6 @@
             font-weight: 600;
             color: #333;
             margin-bottom: 10px;
-            cursor: pointer;
         }
 
         .faq-answer {
@@ -297,41 +236,25 @@
             .pricing-card.featured:hover {
                 transform: translateY(-10px);
             }
+            
+            .header h1 {
+                font-size: 28px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <a href="index.html" class="back-link">← Back to Home</a>
+        
         <!-- Header -->
         <div class="header">
-            <h1>Simple, Transparent Pricing</h1>
-            <p>Choose the plan that works best for you</p>
+            <h1>Upgrade Your Plan</h1>
+            <p>Get unlimited background removals</p>
         </div>
 
-        <!-- Toggle -->
-        <div class="toggle">
-            <button class="toggle-btn active" onclick="showMonthly()">Monthly</button>
-            <button class="toggle-btn" onclick="showCredits()">One-time Credits</button>
-        </div>
-
-        <!-- Monthly Plans -->
-        <div id="monthly-plans" class="pricing-grid">
-            <!-- Free Plan -->
-            <div class="pricing-card">
-                <div class="plan-name">Free</div>
-                <div class="plan-desc">For occasional use</div>
-                <div class="price">$0<span>/month</span></div>
-                <div class="price-note">2 free removals per day</div>
-                <ul class="features">
-                    <li>2 removals per day</li>
-                    <li>Standard quality</li>
-                    <li>Basic support</li>
-                    <li class="disabled">No priority processing</li>
-                    <li class="disabled">No HD output</li>
-                </ul>
-                <button class="btn btn-secondary" onclick="location.href='index.html'">Get Started</button>
-            </div>
-
+        <!-- Pricing Cards -->
+        <div class="pricing-grid">
             <!-- Basic Plan -->
             <div class="pricing-card featured">
                 <div class="badge">Most Popular</div>
@@ -346,7 +269,7 @@
                     <li>Email support</li>
                     <li class="disabled">No priority processing</li>
                 </ul>
-                <button class="btn btn-primary" onclick="checkout('basic')">Subscribe</button>
+                <button class="btn btn-primary" onclick="checkout('basic')">Subscribe with PayPal</button>
             </div>
 
             <!-- Pro Plan -->
@@ -362,29 +285,7 @@
                     <li>Priority processing</li>
                     <li>Priority support</li>
                 </ul>
-                <button class="btn btn-primary" onclick="checkout('pro')">Subscribe</button>
-            </div>
-        </div>
-
-        <!-- Credit Packs (Hidden by default) -->
-        <div id="credit-packs" class="credit-section" style="display: none;">
-            <h2>One-time Credit Packs</h2>
-            <p style="text-align: center; color: #888; margin-bottom: 30px;">Credits never expire. Perfect for occasional use.</p>
-            <div class="credit-grid">
-                <div class="credit-card">
-                    <div class="credit-amount">15</div>
-                    <div style="color: #888;">credits</div>
-                    <div class="credit-price">$2.99</div>
-                    <div class="credit-note">$0.20 per removal</div>
-                    <button class="btn btn-primary" onclick="buyCredits(15)">Buy Now</button>
-                </div>
-                <div class="credit-card">
-                    <div class="credit-amount">60</div>
-                    <div style="color: #888;">credits</div>
-                    <div class="credit-price">$9.99</div>
-                    <div class="credit-note">$0.17 per removal</div>
-                    <button class="btn btn-primary" onclick="buyCredits(60)">Buy Now</button>
-                </div>
+                <button class="btn btn-primary" onclick="checkout('pro')">Subscribe with PayPal</button>
             </div>
         </div>
 
@@ -394,7 +295,7 @@
             
             <div class="faq-item">
                 <div class="faq-question">What happens if I exceed my monthly limit?</div>
-                <div class="faq-answer">You can purchase additional credit packs or upgrade to a higher plan. Unused credits from packs never expire.</div>
+                <div class="faq-answer">You can upgrade to a higher plan or wait until next month when your quota resets.</div>
             </div>
             
             <div class="faq-item">
@@ -403,13 +304,13 @@
             </div>
             
             <div class="faq-item">
-                <div class="faq-question">Do credits expire?</div>
-                <div class="faq-answer">Monthly plan credits reset each month. One-time credit pack credits never expire.</div>
+                <div class="faq-question">Do unused credits roll over?</div>
+                <div class="faq-answer">No, monthly credits reset at the start of each billing cycle.</div>
             </div>
             
             <div class="faq-item">
                 <div class="faq-question">What payment methods do you accept?</div>
-                <div class="faq-answer">We accept all major credit cards, PayPal, and Apple Pay. More payment options coming soon.</div>
+                <div class="faq-answer">We currently accept PayPal. More payment options coming soon.</div>
             </div>
             
             <div class="faq-item">
@@ -421,33 +322,13 @@
         <!-- Footer -->
         <div class="footer">
             <p>Questions? Contact us at <a href="mailto:support@background-remover.website">support@background-remover.website</a></p>
-            <p style="margin-top: 10px;"><a href="index.html">← Back to Home</a></p>
         </div>
     </div>
 
     <script>
-        function showMonthly() {
-            document.getElementById('monthly-plans').style.display = 'grid';
-            document.getElementById('credit-packs').style.display = 'none';
-            document.querySelectorAll('.toggle-btn')[0].classList.add('active');
-            document.querySelectorAll('.toggle-btn')[1].classList.remove('active');
-        }
-
-        function showCredits() {
-            document.getElementById('monthly-plans').style.display = 'none';
-            document.getElementById('credit-packs').style.display = 'block';
-            document.querySelectorAll('.toggle-btn')[0].classList.remove('active');
-            document.querySelectorAll('.toggle-btn')[1].classList.add('active');
-        }
-
         function checkout(plan) {
-            // TODO: Implement checkout flow
-            alert('Checkout for ' + plan + ' plan - Coming soon!');
-        }
-
-        function buyCredits(amount) {
-            // TODO: Implement credit purchase
-            alert('Buy ' + amount + ' credits - Coming soon!');
+            // TODO: Implement PayPal checkout
+            alert('PayPal checkout for ' + plan + ' plan - Coming soon!');
         }
     </script>
 </body>
