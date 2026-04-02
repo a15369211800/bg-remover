@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upgrade - Background Remover</title>
+    <script src="https://www.paypal.com/sdk/js?client-id=AQbPdlCyEG26tRlY04NJXVS0r4Gva9-LnE6JriuHMnedbLH1jBTDybaweIC2BO0OUWglyg4OQDts62YH&vault=true&intent=subscription&currency=USD&components=buttons" data-sdk-integration-source="button-factory"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -17,10 +18,7 @@
             padding: 24px 16px;
         }
 
-        .wrap {
-            width: 100%;
-            max-width: 860px;
-        }
+        .wrap { width: 100%; max-width: 860px; }
 
         .back-link {
             display: inline-block;
@@ -31,10 +29,7 @@
         }
         .back-link:hover { color: #fff; }
 
-        .header {
-            text-align: center;
-            margin-bottom: 10px;
-        }
+        .header { text-align: center; margin-bottom: 10px; }
         .header h1 { color: #fff; font-size: 28px; margin-bottom: 8px; }
         .header p  { color: rgba(255,255,255,0.75); font-size: 15px; }
 
@@ -45,7 +40,6 @@
             margin-bottom: 32px;
         }
 
-        /* Section label */
         .section-label {
             color: rgba(255,255,255,0.85);
             font-size: 13px;
@@ -56,7 +50,6 @@
             padding-left: 4px;
         }
 
-        /* Cards grid */
         .cards {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -64,16 +57,7 @@
             margin-bottom: 28px;
         }
 
-        .cards-3 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 18px;
-            margin-bottom: 36px;
-        }
-
-        @media (max-width: 540px) {
-            .cards, .cards-3 { grid-template-columns: 1fr; }
-        }
+        @media (max-width: 540px) { .cards { grid-template-columns: 1fr; } }
 
         .card {
             background: #fff;
@@ -82,10 +66,7 @@
             text-align: center;
             position: relative;
         }
-
-        .card.featured {
-            border: 3px solid #667eea;
-        }
+        .card.featured { border: 3px solid #667eea; }
 
         .badge {
             position: absolute;
@@ -101,109 +82,67 @@
             white-space: nowrap;
         }
 
-        .plan-name {
-            font-size: 17px;
-            font-weight: 700;
-            color: #222;
-            margin-bottom: 4px;
-        }
-
-        .plan-sub {
-            font-size: 12px;
-            color: #aaa;
-            margin-bottom: 16px;
-        }
+        .plan-name { font-size: 17px; font-weight: 700; color: #222; margin-bottom: 4px; }
+        .plan-sub  { font-size: 12px; color: #aaa; margin-bottom: 16px; }
 
         .price {
-            font-size: 40px;
-            font-weight: 800;
-            color: #667eea;
-            line-height: 1;
-            margin-bottom: 4px;
+            font-size: 40px; font-weight: 800; color: #667eea; line-height: 1; margin-bottom: 4px;
         }
         .price sup { font-size: 18px; font-weight: 600; vertical-align: top; margin-top: 7px; }
         .price sub { font-size: 13px; font-weight: 400; color: #aaa; }
 
         .quota-tag {
             display: inline-block;
-            background: #f0f2ff;
-            color: #667eea;
-            font-size: 12px;
-            font-weight: 600;
-            padding: 3px 12px;
-            border-radius: 20px;
+            background: #f0f2ff; color: #667eea;
+            font-size: 12px; font-weight: 600;
+            padding: 3px 12px; border-radius: 20px;
             margin: 12px 0 18px;
         }
 
         .features {
-            list-style: none;
-            text-align: left;
-            margin-bottom: 20px;
+            list-style: none; text-align: left; margin-bottom: 20px;
         }
         .features li {
-            font-size: 13px;
-            color: #555;
-            padding: 6px 0;
-            border-bottom: 1px solid #f5f5f5;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            font-size: 13px; color: #555;
+            padding: 6px 0; border-bottom: 1px solid #f5f5f5;
+            display: flex; align-items: center; gap: 8px;
         }
         .features li::before { content: "✓"; color: #667eea; font-weight: 700; flex-shrink: 0; }
 
-        /* Pay-per-use card compact */
         .card-compact {
-            background: #fff;
-            border-radius: 18px;
-            padding: 24px 22px;
-            text-align: center;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            background: #fff; border-radius: 18px; padding: 24px 22px;
+            text-align: center; position: relative;
+            display: flex; flex-direction: column; justify-content: space-between;
         }
         .card-compact .plan-name { margin-bottom: 2px; }
         .card-compact .price { font-size: 34px; }
         .card-compact .quota-tag { margin: 8px 0 14px; }
 
-        .btn {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 30px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.15s, box-shadow 0.15s;
-        }
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: #fff;
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(102,126,234,0.4);
-        }
-        .btn-outline {
-            background: #fff;
-            color: #667eea;
-            border: 2px solid #667eea;
-        }
-        .btn-outline:hover { background: #f0f2ff; }
+        /* PayPal button wrapper */
+        .paypal-btn-wrap { margin-top: 4px; min-height: 45px; }
 
         .divider {
-            border: none;
-            border-top: 1px solid rgba(255,255,255,0.2);
+            border: none; border-top: 1px solid rgba(255,255,255,0.2);
             margin: 8px 0 28px;
         }
 
         .footer {
-            text-align: center;
-            color: rgba(255,255,255,0.5);
-            font-size: 12px;
-            margin-top: 8px;
+            text-align: center; color: rgba(255,255,255,0.5);
+            font-size: 12px; margin-top: 8px;
         }
         .footer a { color: rgba(255,255,255,0.7); }
+
+        /* Success toast */
+        .toast {
+            display: none; position: fixed; bottom: 30px; left: 50%;
+            transform: translateX(-50%);
+            background: #22c55e; color: #fff;
+            padding: 14px 28px; border-radius: 30px;
+            font-size: 15px; font-weight: 600;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            z-index: 999;
+        }
+        .toast.active { display: block; }
     </style>
 </head>
 <body>
@@ -221,7 +160,6 @@
     <div class="section-label">Monthly Subscription</div>
     <div class="cards">
 
-        <!-- Member -->
         <div class="card">
             <div class="plan-name">Member</div>
             <div class="plan-sub">For regular use</div>
@@ -233,10 +171,9 @@
                 <li>PNG transparent output</li>
                 <li>Email support</li>
             </ul>
-            <button class="btn btn-outline" onclick="checkout('member_monthly')">Get Member</button>
+            <div class="paypal-btn-wrap" id="paypal-member"></div>
         </div>
 
-        <!-- Super Member -->
         <div class="card featured">
             <div class="badge">Best Value</div>
             <div class="plan-name">Super Member</div>
@@ -250,7 +187,7 @@
                 <li>Priority processing</li>
                 <li>Priority support</li>
             </ul>
-            <button class="btn btn-primary" onclick="checkout('super_monthly')">Get Super Member</button>
+            <div class="paypal-btn-wrap" id="paypal-super"></div>
         </div>
 
     </div>
@@ -258,10 +195,9 @@
     <hr class="divider">
 
     <!-- Pay Per Use -->
-    <div class="section-label">Pay Per Use &nbsp;·&nbsp; No subscription</div>
-    <div class="cards-3">
+    <div class="section-label">Pay Per Use · No subscription</div>
+    <div class="cards">
 
-        <!-- 1x single -->
         <div class="card-compact">
             <div>
                 <div class="plan-name">Single</div>
@@ -269,10 +205,9 @@
                 <div class="price"><sup>$</sup>0.59</div>
                 <div class="quota-tag">1 removal</div>
             </div>
-            <button class="btn btn-outline" onclick="checkout('pack_1')">Buy 1 Credit</button>
+            <div class="paypal-btn-wrap" id="paypal-pack1"></div>
         </div>
 
-        <!-- 10-pack -->
         <div class="card-compact featured">
             <div class="badge">Popular</div>
             <div>
@@ -281,7 +216,7 @@
                 <div class="price"><sup>$</sup>1.99</div>
                 <div class="quota-tag">10 removals</div>
             </div>
-            <button class="btn btn-primary" onclick="checkout('pack_10')">Buy 10 Credits</button>
+            <div class="paypal-btn-wrap" id="paypal-pack10"></div>
         </div>
 
     </div>
@@ -292,11 +227,100 @@
 
 </div>
 
+<div class="toast" id="toast"></div>
+
 <script>
-    function checkout(plan) {
-        // TODO: Implement PayPal checkout
-        alert('Checkout for ' + plan + ' — Coming soon!');
-    }
+const API_BASE = 'http://43.159.142.57:4000';
+
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('active');
+    setTimeout(() => t.classList.remove('active'), 4000);
+}
+
+function addCredits(credits) {
+    const today = new Date();
+    const key = `bgRemoverQuota_${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+    const current = parseInt(localStorage.getItem(key) || '0', 10);
+    localStorage.setItem(key, (current + credits).toString());
+}
+
+// ── One-time payments ─────────────────────────────────────────────────────────
+function renderOnetimeButton(containerId, plan, credits) {
+    paypal.Buttons({
+        style: { layout: 'vertical', color: 'blue', shape: 'pill', label: 'pay', height: 40 },
+        createOrder: async () => {
+            const res = await fetch(`${API_BASE}/api/orders/create`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ plan })
+            });
+            const data = await res.json();
+            return data.id;
+        },
+        onApprove: async (data) => {
+            const res = await fetch(`${API_BASE}/api/orders/capture`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ orderID: data.orderID, plan })
+            });
+            const result = await res.json();
+            if (result.success) {
+                addCredits(result.credits);
+                showToast(`✅ Payment successful! ${result.credits} credit(s) added.`);
+                setTimeout(() => window.location.href = 'index.html', 2000);
+            }
+        },
+        onError: (err) => {
+            console.error(err);
+            showToast('❌ Payment failed. Please try again.');
+        }
+    }).render(`#${containerId}`);
+}
+
+// ── Subscription payments ─────────────────────────────────────────────────────
+function renderSubscriptionButton(containerId, plan, credits) {
+    paypal.Buttons({
+        style: { layout: 'vertical', color: 'blue', shape: 'pill', label: 'subscribe', height: 40 },
+        createSubscription: async (data, actions) => {
+            const res = await fetch(`${API_BASE}/api/subscriptions/create`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ plan })
+            });
+            const result = await res.json();
+            if (result.approveUrl) {
+                // Redirect to PayPal approval page
+                window.location.href = result.approveUrl;
+            }
+            return result.subscriptionId;
+        },
+        onApprove: async (data) => {
+            const res = await fetch(`${API_BASE}/api/subscriptions/activate`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ subscriptionId: data.subscriptionID, plan })
+            });
+            const result = await res.json();
+            if (result.success) {
+                addCredits(result.credits);
+                showToast(`✅ Subscribed! ${result.credits} credits added.`);
+                setTimeout(() => window.location.href = 'index.html', 2000);
+            }
+        },
+        onError: (err) => {
+            console.error(err);
+            showToast('❌ Subscription failed. Please try again.');
+        }
+    }).render(`#${containerId}`);
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+renderOnetimeButton('paypal-pack1',  'pack_1',  1);
+renderOnetimeButton('paypal-pack10', 'pack_10', 10);
+renderSubscriptionButton('paypal-member', 'member_monthly', 100);
+renderSubscriptionButton('paypal-super',  'super_monthly',  300);
 </script>
 </body>
 </html>
