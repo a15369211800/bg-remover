@@ -4,7 +4,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upgrade - Background Remover</title>
-    <meta name="description" content="Choose the perfect plan for your background removal needs.">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -12,324 +11,222 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 40px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 16px;
         }
 
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
+        .wrap {
+            width: 100%;
+            max-width: 720px;
         }
 
-        /* Header */
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .header h1 {
-            color: white;
-            font-size: 36px;
-            margin-bottom: 15px;
-        }
-
-        .header p {
-            color: rgba(255,255,255,0.8);
-            font-size: 18px;
-        }
-
-        /* Back button */
         .back-link {
             display: inline-block;
-            color: white;
+            color: rgba(255,255,255,0.8);
             text-decoration: none;
-            margin-bottom: 30px;
-            font-size: 16px;
+            font-size: 14px;
+            margin-bottom: 24px;
         }
+        .back-link:hover { color: #fff; }
 
-        .back-link:hover {
-            text-decoration: underline;
-        }
-
-        /* Pricing Cards */
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-
-        .pricing-card {
-            background: white;
-            border-radius: 20px;
-            padding: 40px 30px;
+        .header {
             text-align: center;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-            transition: transform 0.3s;
+            margin-bottom: 32px;
+        }
+        .header h1 { color: #fff; font-size: 28px; margin-bottom: 8px; }
+        .header p  { color: rgba(255,255,255,0.75); font-size: 15px; }
+
+        /* Free quota reminder */
+        .free-note {
+            text-align: center;
+            color: rgba(255,255,255,0.6);
+            font-size: 13px;
+            margin-bottom: 28px;
+        }
+
+        /* Cards */
+        .cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 540px) {
+            .cards { grid-template-columns: 1fr; }
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 18px;
+            padding: 32px 28px;
+            text-align: center;
             position: relative;
         }
 
-        .pricing-card:hover {
-            transform: translateY(-10px);
-        }
-
-        .pricing-card.featured {
+        .card.featured {
             border: 3px solid #667eea;
-            transform: scale(1.05);
-        }
-
-        .pricing-card.featured:hover {
-            transform: scale(1.05) translateY(-10px);
         }
 
         .badge {
             position: absolute;
-            top: -12px;
+            top: -13px;
             left: 50%;
             transform: translateX(-50%);
-            background: #667eea;
-            color: white;
-            padding: 6px 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 4px 18px;
             border-radius: 20px;
-            font-size: 14px;
-            font-weight: 600;
+            white-space: nowrap;
         }
 
         .plan-name {
-            font-size: 24px;
-            color: #333;
-            margin-bottom: 10px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #222;
+            margin-bottom: 4px;
         }
 
-        .plan-desc {
-            color: #888;
-            font-size: 14px;
-            margin-bottom: 25px;
+        .plan-sub {
+            font-size: 13px;
+            color: #999;
+            margin-bottom: 20px;
         }
 
         .price {
-            font-size: 48px;
-            font-weight: 700;
+            font-size: 42px;
+            font-weight: 800;
             color: #667eea;
-            margin-bottom: 5px;
+            line-height: 1;
+            margin-bottom: 4px;
         }
+        .price sup { font-size: 20px; font-weight: 600; vertical-align: top; margin-top: 8px; }
+        .price sub { font-size: 14px; font-weight: 400; color: #999; }
 
-        .price span {
-            font-size: 16px;
-            color: #888;
-            font-weight: 400;
-        }
-
-        .price-note {
-            color: #888;
-            font-size: 14px;
-            margin-bottom: 30px;
+        .quota-tag {
+            display: inline-block;
+            background: #f0f2ff;
+            color: #667eea;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 4px 14px;
+            border-radius: 20px;
+            margin: 14px 0 20px;
         }
 
         .features {
             list-style: none;
             text-align: left;
-            margin-bottom: 30px;
+            margin-bottom: 24px;
         }
-
         .features li {
-            padding: 12px 0;
-            border-bottom: 1px solid #f0f0f0;
+            font-size: 13px;
             color: #555;
+            padding: 7px 0;
+            border-bottom: 1px solid #f5f5f5;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
-
-        .features li:before {
-            content: "✓";
-            color: #667eea;
-            font-weight: bold;
-        }
-
-        .features li.disabled {
-            color: #ccc;
-        }
-
-        .features li.disabled:before {
-            content: "✗";
-            color: #ccc;
-        }
+        .features li::before { content: "✓"; color: #667eea; font-weight: 700; flex-shrink: 0; }
 
         .btn {
             width: 100%;
-            padding: 15px;
+            padding: 13px;
             border: none;
             border-radius: 30px;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: transform 0.15s, box-shadow 0.15s;
         }
-
         .btn-primary {
             background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
+            color: #fff;
         }
-
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 8px 24px rgba(102,126,234,0.45);
         }
-
-        .btn-secondary {
-            background: #f0f0f0;
-            color: #555;
+        .btn-outline {
+            background: #fff;
+            color: #667eea;
+            border: 2px solid #667eea;
         }
-
-        .btn-secondary:hover {
-            background: #e4e4e4;
-        }
-
-        /* FAQ */
-        .faq-section {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            margin-top: 40px;
-        }
-
-        .faq-section h2 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 30px;
-        }
-
-        .faq-item {
-            border-bottom: 1px solid #f0f0f0;
-            padding: 20px 0;
-        }
-
-        .faq-question {
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 10px;
-        }
-
-        .faq-answer {
-            color: #666;
-            line-height: 1.6;
-        }
+        .btn-outline:hover { background: #f0f2ff; }
 
         /* Footer */
         .footer {
             text-align: center;
-            color: rgba(255,255,255,0.7);
-            margin-top: 40px;
-            padding: 20px;
+            color: rgba(255,255,255,0.55);
+            font-size: 12px;
+            margin-top: 28px;
         }
-
-        .footer a {
-            color: white;
-            text-decoration: none;
-        }
-
-        @media (max-width: 768px) {
-            .pricing-card.featured {
-                transform: none;
-            }
-            
-            .pricing-card.featured:hover {
-                transform: translateY(-10px);
-            }
-            
-            .header h1 {
-                font-size: 28px;
-            }
-        }
+        .footer a { color: rgba(255,255,255,0.75); }
     </style>
 </head>
 <body>
-    <div class="container">
-        <a href="index.html" class="back-link">← Back to Home</a>
-        
-        <!-- Header -->
-        <div class="header">
-            <h1>Upgrade Your Plan</h1>
-            <p>Get unlimited background removals</p>
-        </div>
+<div class="wrap">
 
-        <!-- Pricing Cards -->
-        <div class="pricing-grid">
-            <!-- Basic Plan -->
-            <div class="pricing-card featured">
-                <div class="badge">Most Popular</div>
-                <div class="plan-name">Basic</div>
-                <div class="plan-desc">For regular users</div>
-                <div class="price">$6.99<span>/month</span></div>
-                <div class="price-note">50 removals per month</div>
-                <ul class="features">
-                    <li>50 removals per month</li>
-                    <li>HD quality output</li>
-                    <li>No watermark</li>
-                    <li>Email support</li>
-                    <li class="disabled">No priority processing</li>
-                </ul>
-                <button class="btn btn-primary" onclick="checkout('basic')">Subscribe with PayPal</button>
-            </div>
+    <a href="index.html" class="back-link">← Back</a>
 
-            <!-- Pro Plan -->
-            <div class="pricing-card">
-                <div class="plan-name">Pro</div>
-                <div class="plan-desc">For power users</div>
-                <div class="price">$14.99<span>/month</span></div>
-                <div class="price-note">120 removals per month</div>
-                <ul class="features">
-                    <li>120 removals per month</li>
-                    <li>HD quality output</li>
-                    <li>No watermark</li>
-                    <li>Priority processing</li>
-                    <li>Priority support</li>
-                </ul>
-                <button class="btn btn-primary" onclick="checkout('pro')">Subscribe with PayPal</button>
-            </div>
-        </div>
-
-        <!-- FAQ -->
-        <div class="faq-section">
-            <h2>Frequently Asked Questions</h2>
-            
-            <div class="faq-item">
-                <div class="faq-question">What happens if I exceed my monthly limit?</div>
-                <div class="faq-answer">You can upgrade to a higher plan or wait until next month when your quota resets.</div>
-            </div>
-            
-            <div class="faq-item">
-                <div class="faq-question">Can I cancel my subscription anytime?</div>
-                <div class="faq-answer">Yes, you can cancel anytime. Your subscription will remain active until the end of the current billing period.</div>
-            </div>
-            
-            <div class="faq-item">
-                <div class="faq-question">Do unused credits roll over?</div>
-                <div class="faq-answer">No, monthly credits reset at the start of each billing cycle.</div>
-            </div>
-            
-            <div class="faq-item">
-                <div class="faq-question">What payment methods do you accept?</div>
-                <div class="faq-answer">We currently accept PayPal. More payment options coming soon.</div>
-            </div>
-            
-            <div class="faq-item">
-                <div class="faq-question">Is there a free trial?</div>
-                <div class="faq-answer">New users get 3 free credits upon registration, plus 2 free removals per day.</div>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="footer">
-            <p>Questions? Contact us at <a href="mailto:support@background-remover.website">support@background-remover.website</a></p>
-        </div>
+    <div class="header">
+        <h1>Unlock More Removals</h1>
+        <p>Simple monthly plans, cancel anytime</p>
     </div>
 
-    <script>
-        function checkout(plan) {
-            // TODO: Implement PayPal checkout
-            alert('PayPal checkout for ' + plan + ' plan - Coming soon!');
-        }
-    </script>
+    <p class="free-note">Free plan: 2 removals / day</p>
+
+    <div class="cards">
+
+        <!-- Member -->
+        <div class="card">
+            <div class="plan-name">Member</div>
+            <div class="plan-sub">For regular use</div>
+            <div class="price"><sup>$</sup>7.9<sub>/mo</sub></div>
+            <div class="quota-tag">100 removals / month</div>
+            <ul class="features">
+                <li>100 HD removals / month</li>
+                <li>No watermark</li>
+                <li>PNG transparent output</li>
+                <li>Email support</li>
+            </ul>
+            <button class="btn btn-outline" onclick="checkout('member')">Get Member</button>
+        </div>
+
+        <!-- Super Member -->
+        <div class="card featured">
+            <div class="badge">Best Value</div>
+            <div class="plan-name">Super Member</div>
+            <div class="plan-sub">For power users</div>
+            <div class="price"><sup>$</sup>19.9<sub>/mo</sub></div>
+            <div class="quota-tag">300 removals / month</div>
+            <ul class="features">
+                <li>300 HD removals / month</li>
+                <li>No watermark</li>
+                <li>PNG transparent output</li>
+                <li>Priority processing</li>
+                <li>Priority support</li>
+            </ul>
+            <button class="btn btn-primary" onclick="checkout('super')">Get Super Member</button>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        <p>Questions? <a href="mailto:support@background-remover.website">support@background-remover.website</a></p>
+    </div>
+
+</div>
+
+<script>
+    function checkout(plan) {
+        // TODO: Implement PayPal / Stripe checkout
+        alert('Checkout for ' + plan + ' plan - Coming soon!');
+    }
+</script>
 </body>
 </html>
