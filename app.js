@@ -18,6 +18,11 @@ let errorTimer = null;
 // ── Upload triggers ──────────────────────────────────────────────────────────
 
 uploadArea.addEventListener('click', () => {
+    // If upload area is disabled (quota exhausted), redirect to pricing
+    if (uploadArea.classList.contains('disabled')) {
+        if (window.showPricing) window.showPricing();
+        return;
+    }
     // Check and use quota before uploading
     if (window.useQuota) {
         const quotaUsed = window.useQuota();
@@ -34,6 +39,11 @@ uploadArea.addEventListener('click', () => {
 
 uploadArea.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
+        // If upload area is disabled (quota exhausted), redirect to pricing
+        if (uploadArea.classList.contains('disabled')) {
+            if (window.showPricing) window.showPricing();
+            return;
+        }
         // Check and use quota before uploading
         if (window.useQuota) {
             const quotaUsed = window.useQuota();
@@ -189,7 +199,11 @@ downloadBtn.addEventListener('click', () => {
 newBtn.addEventListener('click', () => {
     preview.classList.remove('active');
     uploadArea.style.display = 'block';
+    // Use a new input element to ensure same file can be re-uploaded
+    // (setting value='' doesn't always trigger a new change event for the same file)
     fileInput.value = '';
+    fileInput.type = '';
+    fileInput.type = 'file';
     resultBlob = null;
     originalImg.src = '';
     resultImg.src   = '';

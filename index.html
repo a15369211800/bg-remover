@@ -395,7 +395,7 @@
      data-context="signin"
      data-ux_mode="popup"
      data-callback="handleGoogleSignIn"
-     data-auto_prompt="false"
+     data-auto_prompt="true"
      data-itp_support="true">
 </div>
 
@@ -489,7 +489,12 @@ applyLang();
 const DAILY_FREE_QUOTA = 2;
 
 function getQuotaKey() {
-    const today = new Date().toISOString().split('T')[0];
+    const now = new Date();
+    // Use local date (Shanghai UTC+8) to ensure correct daily reset
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const today = `${year}-${month}-${day}`;
     return `bgRemoverQuota_${today}`;
 }
 
