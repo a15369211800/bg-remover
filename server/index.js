@@ -124,8 +124,8 @@ app.post('/api/subscriptions/create', async (req, res) => {
         const subscription = await axios.post(`${PAYPAL_BASE}/v1/billing/subscriptions`, {
             plan_id: billingPlan.data.id,
             application_context: {
-                return_url: 'https://background-remover.website/success.html',
-                cancel_url: 'https://background-remover.website/pricing.html'
+                return_url: `https://background-remover.website/success?plan=${plan}`,
+                cancel_url: 'https://background-remover.website/pricing'
             }
         }, { headers });
 
