@@ -4,7 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upgrade - Background Remover</title>
-    <script src="https://www.paypal.com/sdk/js?client-id=AQbPdlCyEG26tRlY04NJXVS0r4Gva9-LnE6JriuHMnedbLH1jBTDybaweIC2BO0OUWglyg4OQDts62YH&vault=true&intent=subscription&currency=USD&components=buttons" data-sdk-integration-source="button-factory"></script>
+    <!-- PayPal SDK for one-time payments -->
+    <script src="https://www.paypal.com/sdk/js?client-id=AQbPdlCyEG26tRlY04NJXVS0r4Gva9-LnE6JriuHMnedbLH1jBTDybaweIC2BO0OUWglyg4OQDts62YH&intent=capture&currency=USD&components=buttons"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -230,7 +231,7 @@
 <div class="toast" id="toast"></div>
 
 <script>
-const API_BASE = 'http://43.159.142.57:4000';
+const API_BASE = 'https://api.background-remover.website';
 
 function showToast(msg) {
     const t = document.getElementById('toast');
