@@ -52,20 +52,12 @@ uploadArea.addEventListener('click', () => {
         _redirectPricing();
         return;
     }
-    if (!_consumeQuota()) {
-        _redirectPricing();
-        return;
-    }
     fileInput.click();
 });
 
 uploadArea.addEventListener('keydown', (e) => {
     if (e.key !== 'Enter' && e.key !== ' ') return;
     if (_getTodayQuota() <= 0) {
-        _redirectPricing();
-        return;
-    }
-    if (!_consumeQuota()) {
         _redirectPricing();
         return;
     }
@@ -86,10 +78,6 @@ uploadArea.addEventListener('drop', (e) => {
     uploadArea.classList.remove('dragover');
 
     if (_getTodayQuota() <= 0) {
-        _redirectPricing();
-        return;
-    }
-    if (!_consumeQuota()) {
         _redirectPricing();
         return;
     }
@@ -162,6 +150,8 @@ async function processImage(file) {
         resultImg.src = URL.createObjectURL(resultBlob);
         loading.classList.remove('active');
         preview.classList.add('active');
+        // Deduct quota only after successful processing
+        _consumeQuota();
 
     } catch (err) {
         clearTimeout(timeoutId);

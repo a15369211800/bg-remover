@@ -22,7 +22,7 @@
     }
     </script>
     <!-- Google Identity Services -->
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <!-- Google login removed: no longer required -->
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -325,14 +325,8 @@
             <button class="lang-btn" id="langBtn" onclick="toggleLang()">中文</button>
         </div>
         <div class="user-section">
-            <!-- Google Sign In button -->
-            <div id="g_id_signin"></div>
-            <!-- User info (shown when logged in) -->
-            <div class="user-info" id="userInfo">
-                <img class="user-avatar" id="userAvatar" src="" alt="Avatar">
-                <span class="user-name" id="userName"></span>
-                <button class="logout-btn" id="logoutBtn" onclick="handleLogout()">Logout</button>
-            </div>
+            <!-- Upgrade link -->
+            <a href="pricing.html" style="font-size:13px;color:#667eea;text-decoration:none;border:1px solid #667eea;border-radius:16px;padding:4px 12px;">⚡ Upgrade</a>
         </div>
     </div>
 
@@ -389,16 +383,6 @@
 
 </div>
 
-<!-- Google Identity Services configuration -->
-<div id="g_id_onload"
-     data-client_id="648574251521-k3ini965gl068ck2c8a9ldbvggad6nkk.apps.googleusercontent.com"
-     data-context="signin"
-     data-ux_mode="popup"
-     data-callback="handleGoogleSignIn"
-     data-auto_prompt="false"
-     data-itp_support="true">
-</div>
-
 <script>
 // ── i18n ─────────────────────────────────────────────────────────────────────
 const i18n = {
@@ -420,12 +404,10 @@ const i18n = {
         errInvalid: 'Invalid image. Please try a different file.',
         errRate: 'Too many requests. Please wait a moment and try again.',
         errGeneric: 'Something went wrong. Please try again.',
-        quotaText: 'Free removals today: ',
-        quotaExhausted: '0/2',
-        upgradeTitle: 'You\'ve used all free removals',
+        quotaText: 'Removals left: ',
+        upgradeTitle: 'No removals left',
         upgradeDesc: 'Upgrade to continue removing backgrounds',
         upgradeBtn: 'View Plans',
-        logout: 'Logout',
     },
     zh: {
         title: 'AI 智能抠图',
@@ -445,12 +427,10 @@ const i18n = {
         errInvalid: '图片无效，请换一张图片试试。',
         errRate: '请求过于频繁，请稍后再试。',
         errGeneric: '出现错误，请重试。',
-        quotaText: '今日免费次数：',
-        quotaExhausted: '0/2',
-        upgradeTitle: '免费次数已用完',
+        quotaText: '剩余次数：',
+        upgradeTitle: '次数已用完',
         upgradeDesc: '升级会员继续去除背景',
         upgradeBtn: '查看套餐',
-        logout: '退出',
     }
 };
 
@@ -468,7 +448,6 @@ function applyLang() {
     document.getElementById('downloadText').textContent = t.downloadText;
     document.getElementById('newText').textContent = t.newText;
     document.getElementById('langBtn').textContent = t.langBtn;
-    document.getElementById('logoutBtn').textContent = t.logout;
     document.documentElement.lang = lang;
     updateQuotaDisplay();
 }
@@ -478,217 +457,72 @@ function toggleLang() {
     applyLang();
 }
 
-// expose for app.js error messages
 window.getT = (key) => i18n[lang][key] || key;
-
 applyLang();
 
-// ── Quota Management ─────────────────────────────────────────────────────────
-
+// ── Quota ─────────────────────────────────────────────────────────────────────
 const DAILY_FREE_QUOTA = 2;
 
 function getQuotaKey() {
     const now = new Date();
-    // Use local date (Shanghai UTC+8) to ensure correct daily reset
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const day = String(now.getDate()).padStart(2, '0');
-    const today = `${year}-${month}-${day}`;
-    return `bgRemoverQuota_${today}`;
+    return 'bgRemoverQuota_' + now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
 }
 
 function getTodayQuota() {
-    const key = getQuotaKey();
-    const stored = localStorage.getItem(key);
-    if (stored) {
-        return parseInt(stored, 10);
-    }
-    return DAILY_FREE_QUOTA;
+    const v = localStorage.getItem(getQuotaKey());
+    return v !== null ? parseInt(v, 10) : DAILY_FREE_QUOTA;
 }
 
 function useQuota() {
-    const key = getQuotaKey();
-    const current = getTodayQuota();
-    console.log('Current quota:', current);
-    if (current > 0) {
-        localStorage.setItem(key, (current - 1).toString());
-        console.log('Quota deducted, new quota:', current - 1);
-        updateQuotaDisplay();
-        return true;
-    }
-    console.log('Quota exhausted');
-    return false;
+    const cur = getTodayQuota();
+    if (cur <= 0) return false;
+    localStorage.setItem(getQuotaKey(), String(cur - 1));
+    updateQuotaDisplay();
+    return true;
 }
 
 function updateQuotaDisplay() {
     const quota = getTodayQuota();
     const t = i18n[lang];
-    const quotaDisplay = document.getElementById('quotaDisplay');
-    const quotaNumber = document.getElementById('quotaNumber');
-    const upgradeBanner = document.getElementById('upgradeBanner');
-    const uploadArea = document.getElementById('uploadArea');
-    
-    quotaNumber.textContent = `${quota}/${DAILY_FREE_QUOTA}`;
-    
-    // Update quota display style
-    quotaDisplay.classList.remove('free', 'low', 'exhausted');
-    if (quota === DAILY_FREE_QUOTA) {
-        quotaDisplay.classList.add('free');
-    } else if (quota > 0) {
-        quotaDisplay.classList.add('low');
-    } else {
-        quotaDisplay.classList.add('exhausted');
+    const qn = document.getElementById('quotaNumber');
+    if (qn) qn.textContent = quota;
+    const qt = document.querySelector('.quota-text');
+    if (qt) qt.textContent = t.quotaText;
+
+    const qd = document.getElementById('quotaDisplay');
+    if (qd) {
+        qd.classList.remove('free', 'low', 'exhausted');
+        if (quota >= DAILY_FREE_QUOTA) qd.classList.add('free');
+        else if (quota > 0) qd.classList.add('low');
+        else qd.classList.add('exhausted');
     }
-    
-    // Show upgrade banner if quota exhausted
-    if (quota === 0) {
-        upgradeBanner.classList.add('active');
-        uploadArea.classList.add('disabled');
-        document.getElementById('upgradeTitle').textContent = t.upgradeTitle;
-        document.getElementById('upgradeDesc').textContent = t.upgradeDesc;
-        document.querySelector('.upgrade-btn').textContent = t.upgradeBtn;
-    } else {
-        upgradeBanner.classList.remove('active');
-        uploadArea.classList.remove('disabled');
-    }
-}
 
-function showPricing() {
-    window.location.href = 'pricing.html';
-}
-
-// Expose showPricing globally
-window.showPricing = showPricing;
-
-// Check quota before processing
-function checkQuota() {
-    const quota = getTodayQuota();
+    const banner = document.getElementById('upgradeBanner');
+    const area = document.getElementById('uploadArea');
     if (quota <= 0) {
-        showPricing();
-        return false;
-    }
-    return true;
-}
-
-// ── Google OAuth Functions ───────────────────────────────────────────────────
-
-// Handle Google Sign In
-function handleGoogleSignIn(response) {
-    // Clear any old stored data first
-    localStorage.removeItem('bgRemoverUser');
-    
-    // Decode the JWT token with proper UTF-8 handling
-    const credential = response.credential;
-    const base64Url = credential.split('.')[1];
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
-    const payload = JSON.parse(jsonPayload);
-    
-    // Store user info
-    const userInfo = {
-        id: payload.sub,
-        name: payload.name,
-        email: payload.email,
-        picture: payload.picture,
-        credential: credential
-    };
-    
-    localStorage.setItem('bgRemoverUser', JSON.stringify(userInfo));
-    
-    // Update UI
-    updateUserUI(userInfo);
-}
-
-// Update UI based on login state
-function updateUserUI(userInfo) {
-    if (userInfo) {
-        document.getElementById('userAvatar').src = userInfo.picture;
-        document.getElementById('userName').textContent = userInfo.name;
-        document.getElementById('userInfo').classList.add('active');
-        document.getElementById('g_id_signin').style.display = 'none';
+        if (banner) banner.classList.add('active');
+        if (area) area.classList.add('disabled');
+        const ut = document.getElementById('upgradeTitle');
+        const ud = document.getElementById('upgradeDesc');
+        const ub = document.querySelector('.upgrade-btn');
+        if (ut) ut.textContent = t.upgradeTitle;
+        if (ud) ud.textContent = t.upgradeDesc;
+        if (ub) ub.textContent = t.upgradeBtn;
     } else {
-        document.getElementById('userInfo').classList.remove('active');
-        document.getElementById('g_id_signin').style.display = 'block';
+        if (banner) banner.classList.remove('active');
+        if (area) area.classList.remove('disabled');
     }
 }
 
-// Handle logout
-function handleLogout() {
-    // Clear all stored data
-    localStorage.removeItem('bgRemoverUser');
-    
-    // Update UI
-    updateUserUI(null);
-    
-    // Revoke Google session
-    if (window.google && window.google.accounts) {
-        window.google.accounts.id.disableAutoSelect();
-    }
-    
-    // Reload page to clear any cached state
-    window.location.reload();
-}
+function showPricing() { window.location.href = 'pricing.html'; }
 
-// Check if user is logged in
-function getCurrentUser() {
-    const stored = localStorage.getItem('bgRemoverUser');
-    return stored ? JSON.parse(stored) : null;
-}
-
-// Render Google Sign In button
-function renderGoogleButton() {
-    console.log('Attempting to render Google button...');
-    if (window.google && window.google.accounts) {
-        console.log('Google Identity Services loaded');
-        const signinDiv = document.getElementById('g_id_signin');
-        if (signinDiv) {
-            window.google.accounts.id.renderButton(
-                signinDiv,
-                { 
-                    theme: 'outline', 
-                    size: 'small',
-                    width: '120'
-                }
-            );
-            console.log('Google button rendered');
-        }
-    } else {
-        console.log('Google Identity Services not loaded yet, retrying...');
-        // Retry after 500ms if GIS not loaded yet
-        setTimeout(renderGoogleButton, 500);
-    }
-}
-
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('Page loaded, initializing...');
-    
-    const user = getCurrentUser();
-    console.log('Current user:', user);
-    
-    if (user) {
-        updateUserUI(user);
-    }
-    
-    // Render Google Sign In button when GIS is ready
-    // Delay to ensure GIS script has loaded
-    setTimeout(renderGoogleButton, 1000);
-    
-    // Update quota display
-    updateQuotaDisplay();
-    console.log('Initialization complete');
-});
-
-// Expose functions globally
-window.handleGoogleSignIn = handleGoogleSignIn;
-window.handleLogout = handleLogout;
-window.getCurrentUser = getCurrentUser;
-window.renderGoogleButton = renderGoogleButton;
-window.checkQuota = checkQuota;
-window.useQuota = useQuota;
 window.showPricing = showPricing;
+window.checkQuota = function() { if (getTodayQuota() <= 0) { showPricing(); return false; } return true; };
+window.useQuota = useQuota;
+window.getTodayQuota = getTodayQuota;
+window.getQuotaKey = getQuotaKey;
+
+document.addEventListener('DOMContentLoaded', updateQuotaDisplay);
 </script>
 <script src="app.js"></script>
 </body>
