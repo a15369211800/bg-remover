@@ -133,6 +133,23 @@
         }
         .footer a { color: rgba(255,255,255,0.7); }
 
+        /* Subscribe button */
+        .subscribe-btn {
+            width: 100%;
+            padding: 12px;
+            background: #0070ba;
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.15s;
+            margin-top: 4px;
+        }
+        .subscribe-btn:hover { background: #005ea6; transform: translateY(-1px); }
+        .subscribe-btn:disabled { background: #999; cursor: wait; }
+
         /* Success toast */
         .toast {
             display: none; position: fixed; bottom: 30px; left: 50%;
@@ -172,7 +189,7 @@
                 <li>PNG transparent output</li>
                 <li>Email support</li>
             </ul>
-            <div class="paypal-btn-wrap" id="paypal-member"></div>
+            <button class="subscribe-btn" id="btn-member" onclick="handleSubscribe('member_monthly', 100, this)">Subscribe with PayPal</button>
         </div>
 
         <div class="card featured">
@@ -188,7 +205,7 @@
                 <li>Priority processing</li>
                 <li>Priority support</li>
             </ul>
-            <div class="paypal-btn-wrap" id="paypal-super"></div>
+            <button class="subscribe-btn" id="btn-super" onclick="handleSubscribe('super_monthly', 300, this)">Subscribe with PayPal</button>
         </div>
 
     </div>
@@ -280,48 +297,33 @@ function renderOnetimeButton(containerId, plan, credits) {
     }).render(`#${containerId}`);
 }
 
-// ── Subscription payments ─────────────────────────────────────────────────────
-function renderSubscriptionButton(containerId, plan, credits) {
-    paypal.Buttons({
-        style: { layout: 'vertical', color: 'blue', shape: 'pill', label: 'subscribe', height: 40 },
-        createSubscription: async (data, actions) => {
-            const res = await fetch(`${API_BASE}/api/subscriptions/create`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ plan })
-            });
-            const result = await res.json();
-            if (result.approveUrl) {
-                // Redirect to PayPal approval page
-                window.location.href = result.approveUrl;
-            }
-            return result.subscriptionId;
-        },
-        onApprove: async (data) => {
-            const res = await fetch(`${API_BASE}/api/subscriptions/activate`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ subscriptionId: data.subscriptionID, plan })
-            });
-            const result = await res.json();
-            if (result.success) {
-                addCredits(result.credits);
-                showToast(`✅ Subscribed! ${result.credits} credits added.`);
-                setTimeout(() => window.location.href = 'index.html', 2000);
-            }
-        },
-        onError: (err) => {
-            console.error(err);
-            showToast('❌ Subscription failed. Please try again.');
+// ── Subscription payments (redirect flow, no SDK needed) ──────────────────────
+async function handleSubscribe(plan, credits, btn) {
+    btn.disabled = true;
+    btn.textContent = 'Redirecting to PayPal...';
+    try {
+        const res = await fetch(`${API_BASE}/api/subscriptions/create`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ plan })
+        });
+        const result = await res.json();
+        if (result.approveUrl) {
+            window.location.href = result.approveUrl;
+        } else {
+            throw new Error(result.error || 'No approval URL');
         }
-    }).render(`#${containerId}`);
+    } catch (err) {
+        console.error(err);
+        showToast('❌ Subscription failed. Please try again.');
+        btn.disabled = false;
+        btn.textContent = 'Subscribe with PayPal';
+    }
 }
 
 // ── Init ──────────────────────────────────────────────────────────────────────
 renderOnetimeButton('paypal-pack1',  'pack_1',  1);
 renderOnetimeButton('paypal-pack10', 'pack_10', 10);
-renderSubscriptionButton('paypal-member', 'member_monthly', 100);
-renderSubscriptionButton('paypal-super',  'super_monthly',  300);
 </script>
 </body>
 </html>
